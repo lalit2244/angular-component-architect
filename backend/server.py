@@ -19,7 +19,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# In-memory conversation store (keyed by session_id)
 sessions: dict[str, list[dict]] = {}
 
 
@@ -45,13 +44,11 @@ async def generate(req: GenerateRequest):
         raise HTTPException(500, "GROQ_API_KEY not configured on server")
 
     history = sessions.get(req.session_id, [])
-
     result = run_pipeline(req.prompt, api_key, conversation_history=history)
 
-    # Update conversation history
     history.append({"role": "user", "content": req.prompt})
     history.append({"role": "assistant", "content": result["code"][:500]})
-    sessions[req.session_id] = history[-20:]  # keep last 20 turns
+    sessions[req.session_id] = history[-20:]
 
     return GenerateResponse(
         code=result["code"],
@@ -66,9 +63,17 @@ async def generate(req: GenerateRequest):
 
 @app.get("/tokens")
 async def get_tokens():
-    tokens_path = Path(__file__).parent.parent / "design-system" / "tokens.json"
-    with open(tokens_path) as f:
-        return json.load(f)
+    possible_paths = [
+        Path(__file__).parent.parent / "design-system" / "tokens.json",
+        Path(__file__).parent / "tokens.json",
+        Path("design-system") / "tokens.json",
+        Path("../design-system") / "tokens.json",
+    ]
+    for p in possible_paths:
+        if p.exists():
+            with open(p) as f:
+                return json.load(f)
+    raise HTTPException(404, "tokens.json not found")
 
 
 @app.delete("/session/{session_id}")
@@ -80,3 +85,8 @@ async def clear_session(session_id: str):
 @app.get("/health")
 async def health():
     return {"status": "ok", "groq_key_set": bool(os.environ.get("GROQ_API_KEY"))}
+
+
+@app.get("/")
+async def root():
+    return {"message": "Angular Component Architect API is running!"}
