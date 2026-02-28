@@ -19,14 +19,23 @@ MODEL = "llama-3.3-70b-versatile"
 
 
 def load_design_tokens() -> dict:
-    with open(DESIGN_TOKENS_PATH) as f:
-        return json.load(f)
+    possible_paths = [
+        Path(__file__).parent.parent / "design-system" / "tokens.json",
+        Path(__file__).parent / "tokens.json",
+        Path("design-system") / "tokens.json",
+        Path("../design-system") / "tokens.json",
+    ]
+    for p in possible_paths:
+        if p.exists():
+            with open(p) as f:
+                return json.load(f)
+    raise FileNotFoundError("tokens.json not found in any expected location")
 
 
 def build_system_prompt(tokens: dict) -> str:
     token_str = json.dumps(tokens, indent=2)
     return f"""You are an expert Angular/TypeScript developer and UI designer.
-Your job is to generate COMPLETE, VALID Angular components using Tailwind CSS inline styles.
+Your job is to generate COMPLETE, VALID Angular components using inline styles.
 
 === DESIGN SYSTEM (STRICT - YOU MUST USE THESE TOKENS) ===
 {token_str}
@@ -36,7 +45,7 @@ Your job is to generate COMPLETE, VALID Angular components using Tailwind CSS in
 2. Generate a SINGLE self-contained Angular component as a TypeScript file.
 3. Use ONLY colors from the design system (primary: #6366f1, secondary: #06b6d4, etc.).
 4. Use ONLY border-radius values from the design system (4px, 8px, 12px, 16px, 24px, 9999px).
-5. Font must be 'Inter' or 'JetBrains Mono' only.
+5. Always explicitly set font-family: 'Inter', sans-serif on the component root element.
 6. All brackets/braces/parentheses must be properly closed.
 7. Component selector must be kebab-case (e.g., app-login-card).
 8. Include @Component decorator with selector, template, and styles.
@@ -143,7 +152,7 @@ def _check_bracket_balance(code: str) -> list[ValidationError]:
             elif ch in closes:
                 if not stack or stack[-1] != pairs[ch]:
                     errors.append(ValidationError("SYNTAX", f"Unmatched closing bracket '{ch}' at position {i}"))
-                    return errors  # stop early
+                    return errors
                 stack.pop()
         i += 1
 
@@ -156,15 +165,12 @@ def _check_color_compliance(code: str, tokens: dict) -> list[ValidationError]:
     errors = []
     allowed_colors = set(tokens.get("colors", {}).values())
 
-    # Find all hex colors in the code
     hex_colors = re.findall(r"#([0-9a-fA-F]{3,8})\b", code)
     for hex_val in hex_colors:
         full = f"#{hex_val}"
-        # Normalize 3-digit to 6-digit
         if len(hex_val) == 3:
             full = "#" + "".join(c * 2 for c in hex_val)
         if full.lower() not in [c.lower() for c in allowed_colors]:
-            # Allow rgba/opacity variants — just warn
             errors.append(
                 ValidationError(
                     "DESIGN_TOKEN_COLOR",
@@ -178,10 +184,8 @@ def _check_color_compliance(code: str, tokens: dict) -> list[ValidationError]:
 def _check_border_radius_compliance(code: str, tokens: dict) -> list[ValidationError]:
     errors = []
     allowed_radii = set(tokens.get("borders", {}).values())
-    # Extract px values used for border-radius
     radius_matches = re.findall(r"border-?[Rr]adius[:\s]+([^;\"'`}]+)", code)
     for match in radius_matches:
-        # strip and check each value
         for val in match.strip().split():
             val = val.rstrip(";,\"'")
             if re.match(r"^\d+px$", val) and val not in allowed_radii:
@@ -202,19 +206,29 @@ def _check_font_compliance(code: str, tokens: dict) -> list[ValidationError]:
         tokens["typography"]["font-family-mono"],
         "Inter",
         "JetBrains Mono",
+        "sans-serif",
+        "monospace",
+        "serif",
+        "inherit",
+        "initial",
+        "unset",
     ]
-    # Look for font-family declarations
     font_matches = re.findall(r"font-family[:\s]+([^;\"'`}]+)", code)
     for match in font_matches:
-        match_clean = match.strip().strip("'\"")
-        if not any(af.lower() in match.lower() for af in allowed_fonts):
-            errors.append(
-                ValidationError(
-                    "DESIGN_TOKEN_FONT",
-                    f"Font '{match_clean}' not in design system. Use 'Inter' or 'JetBrains Mono'",
-                    severity="warning",
-                )
+        match_clean = match.strip().strip("'\"").strip()
+        # Skip empty values
+        if not match_clean:
+            continue
+        # Skip if it contains any allowed font
+        if any(af.lower() in match.lower() for af in allowed_fonts):
+            continue
+        errors.append(
+            ValidationError(
+                "DESIGN_TOKEN_FONT",
+                f"Font '{match_clean}' not in design system. Use 'Inter' or 'JetBrains Mono'",
+                severity="warning",
             )
+        )
     return errors
 
 
