@@ -562,7 +562,13 @@
   function renderPreview() {
     if (!currentCode) return;
 
-    const { html, css } = extractFromTS(currentCode);
+    let { html, css } = extractFromTS(currentCode);
+
+    // CRITICAL: escape backticks so they don't break the template literal below
+    // Angular TS files use backtick strings — any ` in extracted css/html will
+    // prematurely close the template literal and cause "Unexpected end of input"
+    html = html.replace(/`/g, '&#96;');
+    css  = css.replace(/`/g, '&#96;');
 
     document.getElementById('previewEmpty').style.display = 'none';
     const pr = document.getElementById('previewReady');
@@ -625,50 +631,44 @@
     overflow-x: hidden;
   }
 
-  /* ── COMPONENT HOST ── */
+  /* ── COMPONENT HOST ──
+     NOTE: NO overflow:hidden here — that kills glassmorphism blur effects */
   .component-host {
     width: 100%;
     max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
   }
 
-  /* ── GLOBAL OVERFLOW SAFETY ── */
+  /* ── GLOBAL BOX MODEL SAFETY ── */
   .component-host * {
     box-sizing: border-box;
-    max-width: 100%;
     min-width: 0;
   }
 
-  /* ── TEXT OVERFLOW SAFETY ── */
-  .component-host p,
-  .component-host span,
-  .component-host h1,
-  .component-host h2,
-  .component-host h3,
-  .component-host h4,
-  .component-host h5,
-  .component-host h6,
-  .component-host label,
-  .component-host div {
-    overflow-wrap: break-word;
-    word-break: break-word;
-  }
-
-  /* ── FLEX ROW OVERFLOW FIX ── */
+  /* ── FLEX ROW WRAP FIX — prevents cards spilling out ── */
   .component-host [style*="display: flex"],
   .component-host [style*="display:flex"] {
     flex-wrap: wrap;
     min-width: 0;
+    max-width: 100%;
   }
 
-  /* ── CARD OVERFLOW FIX ── */
-  .component-host [style*="border-radius"],
-  .component-host [style*="border"],
-  .component-host [style*="background"] {
-    overflow: hidden;
+  /* ── BROKEN IMAGE REPLACEMENT — handled by JS below ── */
+  .component-host img[data-broken] {
+    display: none !important;
+  }
+  .avatar-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: #6366f1;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
   }
 
   /* ── COMPONENT INJECTED CSS ── */
@@ -676,9 +676,37 @@
 </style>
 </head>
 <body>
-  <div class="component-host">
+  <div class="component-host" id="compHost">
     ${html || '<p style="color:#6b7280;font-family:Inter,sans-serif;font-size:14px;padding:20px">No template found in this component</p>'}
   </div>
+<script>
+  // Fix broken <img> tags — replace with styled initials circle
+  function fixBrokenImages() {
+    const imgs = document.querySelectorAll('img');
+    imgs.forEach(img => {
+      img.addEventListener('error', function() {
+        const size = img.width || img.offsetWidth || 56;
+        const alt  = img.alt || '?';
+        const initials = alt.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase() || '?';
+        const div = document.createElement('div');
+        div.className   = 'avatar-initials';
+        div.textContent = initials;
+        div.style.width  = size + 'px';
+        div.style.height = size + 'px';
+        div.style.fontSize = Math.max(14, size * 0.36) + 'px';
+        // Inherit any extra styles from the img (border-radius, margin, etc.)
+        div.style.borderRadius = '9999px';
+        img.parentNode.replaceChild(div, img);
+      });
+      // Trigger for already-broken images
+      if (img.complete && img.naturalWidth === 0) {
+        img.dispatchEvent(new Event('error'));
+      }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', fixBrokenImages);
+  setTimeout(fixBrokenImages, 300);
+<\/script>
 </body>
 </html>`;
 
