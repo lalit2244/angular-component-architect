@@ -473,9 +473,20 @@
   // GENERATE
   // ─────────────────────────────────────
   async function generate() {
-    const input  = document.getElementById('promptInput');
-    const prompt = input.value.trim();
+    const input   = document.getElementById('promptInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const prompt  = input.value.trim();
     if (!prompt) return;
+
+    // Disable button — prevent duplicate requests while generating
+    sendBtn.disabled = true;
+
+    // Always show Code tab so loading animation is visible
+    const codeTab = document.querySelector('.tab');
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    codeTab.classList.add('active');
+    document.getElementById('tab-code').classList.add('active');
 
     setStatus('loading', 'Generating component...');
     addMessage('user', prompt);
@@ -495,6 +506,8 @@
       }
       const data = await res.json();
       currentCode = data.code;
+
+      clearInterval(stepTimer); // Stop step animation cleanly
       showCode(data);
       renderPreview();
 
@@ -507,9 +520,12 @@
       showValidation(data);
 
     } catch (e) {
+      clearInterval(stepTimer);
       setStatus('error', 'Error: ' + e.message);
       addMessage('system', '❌ Error: ' + e.message);
       showEmpty();
+    } finally {
+      sendBtn.disabled = false; // Always re-enable
     }
   }
 
@@ -567,8 +583,10 @@
     // CRITICAL: escape backticks so they don't break the template literal below
     // Angular TS files use backtick strings — any ` in extracted css/html will
     // prematurely close the template literal and cause "Unexpected end of input"
-    html = html.replace(/`/g, '&#96;');
-    css  = css.replace(/`/g, '&#96;');
+    // Escape backticks — would prematurely close the JS template literal
+    // Escape ${ — would be evaluated as JS interpolation inside template literal
+    html = html.replace(/`/g, '&#96;').replace(/\$\{/g, '&#36;{');
+    css  = css.replace(/`/g, '&#96;').replace(/\$\{/g, '&#36;{');
 
     document.getElementById('previewEmpty').style.display = 'none';
     const pr = document.getElementById('previewReady');
