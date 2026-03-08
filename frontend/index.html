@@ -40,7 +40,6 @@
       overflow-x: hidden;
     }
 
-    /* ── BACKGROUND GRID ── */
     body::before {
       content: '';
       position: fixed;
@@ -67,7 +66,7 @@
     header {
       position: relative;
       z-index: 10;
-      padding: 24px 40px;
+      padding: 20px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -75,36 +74,28 @@
       backdrop-filter: blur(12px);
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
+    .logo { display: flex; align-items: center; gap: 12px; }
     .logo-icon {
-      width: 36px; height: 36px;
+      width: 34px; height: 34px;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
+      font-size: 16px;
     }
-
     .logo-text {
       font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: var(--text-bright);
     }
-
     .logo-text span { color: var(--primary); }
-
     .badge {
       padding: 4px 10px;
       background: rgba(99,102,241,0.12);
       border: 1px solid var(--border);
       border-radius: 9999px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-family: var(--font-mono);
       color: var(--primary);
       letter-spacing: 0.05em;
@@ -115,8 +106,8 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: 420px 1fr;
-      height: calc(100vh - 73px);
+      grid-template-columns: 400px 1fr;
+      height: calc(100vh - 69px);
     }
 
     /* ── LEFT PANEL ── */
@@ -124,456 +115,274 @@
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      padding: 28px;
-      gap: 20px;
+      padding: 22px;
+      gap: 16px;
       overflow-y: auto;
     }
 
     .section-label {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.63rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-dim);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
-    /* Chat area */
     .chat-history {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       overflow-y: auto;
       min-height: 0;
-      padding-right: 4px;
     }
-
     .chat-history::-webkit-scrollbar { width: 3px; }
     .chat-history::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
 
     .msg {
-      padding: 12px 14px;
+      padding: 11px 13px;
       border-radius: var(--radius);
-      font-size: 0.875rem;
+      font-size: 0.845rem;
       line-height: 1.55;
       animation: fadeSlide 0.3s ease;
     }
-
     @keyframes fadeSlide {
       from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
+    .msg-user   { background: rgba(99,102,241,0.1); border: 1px solid var(--border); margin-left: 16px; }
+    .msg-system { background: rgba(6,182,212,0.06); border: 1px solid rgba(6,182,212,0.15); color: var(--text-dim); font-family: var(--font-mono); font-size: 0.76rem; }
+    .msg-label  { font-size: 0.63rem; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.6; }
 
-    .msg-user {
-      background: rgba(99,102,241,0.1);
-      border: 1px solid var(--border);
-      color: var(--text);
-      margin-left: 20px;
-    }
+    .input-area { display: flex; flex-direction: column; gap: 9px; }
 
-    .msg-system {
-      background: rgba(6,182,212,0.06);
-      border: 1px solid rgba(6,182,212,0.15);
-      color: var(--text-dim);
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-    }
-
-    .msg-label {
-      font-size: 0.65rem;
-      font-family: var(--font-mono);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-      opacity: 0.6;
-    }
-
-    /* Input area */
-    .input-area {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .prompt-wrapper {
-      position: relative;
-    }
-
+    .prompt-wrapper { position: relative; }
     textarea {
       width: 100%;
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 14px;
-      padding-right: 50px;
+      padding: 13px 46px 13px 13px;
       color: var(--text);
       font-family: var(--font-sans);
-      font-size: 0.875rem;
+      font-size: 0.845rem;
       line-height: 1.55;
       resize: none;
-      min-height: 90px;
+      min-height: 85px;
       transition: border-color 0.2s, box-shadow 0.2s;
       outline: none;
     }
-
-    textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-glow);
-    }
-
+    textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
     textarea::placeholder { color: var(--text-dim); }
 
     .send-btn {
-      position: absolute;
-      bottom: 12px; right: 12px;
-      width: 32px; height: 32px;
-      background: var(--primary);
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s, transform 0.1s;
-      color: white;
+      position: absolute; bottom: 11px; right: 11px;
+      width: 30px; height: 30px;
+      background: var(--primary); border: none; border-radius: 7px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.1s; color: white;
     }
-
     .send-btn:hover { background: var(--primary-dark); }
-    .send-btn:active { transform: scale(0.95); }
+    .send-btn:active { transform: scale(0.94); }
     .send-btn:disabled { background: var(--border); cursor: not-allowed; }
 
-    .examples-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
+    .examples-row { display: flex; flex-wrap: wrap; gap: 5px; }
     .example-chip {
-      padding: 5px 10px;
+      padding: 4px 9px;
       background: rgba(99,102,241,0.06);
       border: 1px solid var(--border);
       border-radius: 9999px;
-      font-size: 0.72rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--text-dim);
-      white-space: nowrap;
+      font-size: 0.7rem;
+      cursor: pointer; transition: all 0.2s; color: var(--text-dim); white-space: nowrap;
     }
+    .example-chip:hover { background: rgba(99,102,241,0.15); border-color: var(--border-strong); color: var(--text); }
 
-    .example-chip:hover {
-      background: rgba(99,102,241,0.15);
-      border-color: var(--border-strong);
-      color: var(--text);
-    }
-
-    /* Status strip */
     .status-strip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 11px;
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: 8px;
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
+      font-size: 0.73rem; font-family: var(--font-mono);
     }
-
-    .status-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .status-dot.idle { background: var(--text-dim); }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.idle    { background: var(--text-dim); }
     .status-dot.loading { background: var(--accent); animation: pulse 1s infinite; }
     .status-dot.success { background: var(--success); }
-    .status-dot.error { background: var(--error); }
+    .status-dot.error   { background: var(--error); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* Error/warning list */
-    .validation-list {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .v-item {
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 0.7rem;
-      font-family: var(--font-mono);
-      line-height: 1.4;
-    }
-
-    .v-item.error { background: rgba(239,68,68,0.08); border-left: 3px solid var(--error); color: #fca5a5; }
+    .validation-list { display: flex; flex-direction: column; gap: 3px; }
+    .v-item { padding: 5px 9px; border-radius: 5px; font-size: 0.68rem; font-family: var(--font-mono); line-height: 1.4; }
+    .v-item.error   { background: rgba(239,68,68,0.08);  border-left: 3px solid var(--error);   color: #fca5a5; }
     .v-item.warning { background: rgba(245,158,11,0.08); border-left: 3px solid var(--warning); color: #fcd34d; }
     .v-item.success { background: rgba(16,185,129,0.08); border-left: 3px solid var(--success); color: #6ee7b7; }
 
     /* ── RIGHT PANEL ── */
-    .right-panel {
-      display: flex;
-      flex-direction: column;
-    }
+    .right-panel { display: flex; flex-direction: column; }
 
     .panel-tabs {
       display: flex;
       border-bottom: 1px solid var(--border);
-      padding: 0 28px;
-      gap: 0;
+      padding: 0 24px; gap: 0;
     }
-
     .tab {
-      padding: 14px 20px;
-      font-size: 0.8rem;
-      font-family: var(--font-mono);
-      color: var(--text-dim);
-      cursor: pointer;
+      padding: 13px 18px;
+      font-size: 0.78rem; font-family: var(--font-mono);
+      color: var(--text-dim); cursor: pointer;
       border-bottom: 2px solid transparent;
-      transition: all 0.2s;
-      letter-spacing: 0.04em;
+      transition: all 0.2s; letter-spacing: 0.04em;
     }
-
     .tab:hover { color: var(--text); }
     .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
 
-    .panel-body {
+    .panel-body { flex: 1; overflow: hidden; position: relative; }
+    .tab-pane { display: none; height: 100%; }
+    .tab-pane.active { display: flex; flex-direction: column; height: 100%; }
+
+    /* Code tab */
+    .code-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .file-tag { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
+    .file-tag span { color: var(--primary); }
+    .toolbar-btns { display: flex; gap: 7px; }
+    .btn-sm {
+      padding: 5px 11px; border-radius: 6px;
+      font-size: 0.7rem; font-family: var(--font-mono);
+      cursor: pointer; border: 1px solid var(--border);
+      background: transparent; color: var(--text-dim);
+      transition: all 0.2s; display: flex; align-items: center; gap: 5px;
+    }
+    .btn-sm:hover { background: rgba(99,102,241,0.1); border-color: var(--border-strong); color: var(--text); }
+    .btn-sm.primary { background: var(--primary); border-color: var(--primary); color: white; }
+    .btn-sm.primary:hover { background: var(--primary-dark); }
+
+    pre.code-view {
+      flex: 1; overflow: auto;
+      padding: 22px; font-family: var(--font-mono);
+      font-size: 0.78rem; line-height: 1.72;
+      background: var(--bg-card); color: #c9d1d9;
+      white-space: pre-wrap; word-break: break-all;
+    }
+    pre.code-view::-webkit-scrollbar { width: 5px; height: 5px; }
+    pre.code-view::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+    .tok-kw  { color: #ff7b72; }
+    .tok-str { color: #a5d6ff; }
+    .tok-cmt { color: #8b949e; font-style: italic; }
+    .tok-dec { color: #d2a8ff; }
+
+    /* ── PREVIEW TAB ── */
+    .preview-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+      gap: 12px;
+    }
+
+    .preview-info {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);
+    }
+
+    .preview-info .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+
+    .bg-switcher {
+      display: flex; gap: 5px; align-items: center;
+    }
+
+    .bg-btn {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid transparent; cursor: pointer;
+      transition: border-color 0.2s; outline: none;
+    }
+    .bg-btn.active { border-color: var(--primary); }
+    .bg-btn:hover  { border-color: var(--border-strong); }
+
+    .preview-frame-wrap {
       flex: 1;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
       position: relative;
     }
 
-    .tab-pane {
-      display: none;
-      height: 100%;
-    }
-    .tab-pane.active { display: flex; flex-direction: column; height: 100%; }
-
-    /* Code editor area */
-    .code-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-card);
+    #previewFrame {
+      width: 100%; flex: 1;
+      border: none;
+      transition: background 0.3s;
     }
 
-    .file-tag {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .file-tag span {
-      color: var(--primary);
-    }
-
-    .toolbar-btns {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-sm {
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      font-family: var(--font-mono);
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-dim);
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .btn-sm:hover {
-      background: rgba(99,102,241,0.1);
-      border-color: var(--border-strong);
-      color: var(--text);
-    }
-
-    .btn-sm.primary {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: white;
-    }
-
-    .btn-sm.primary:hover { background: var(--primary-dark); }
-
-    pre.code-view {
-      flex: 1;
-      overflow: auto;
-      padding: 24px;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      line-height: 1.7;
-      background: var(--bg-card);
-      color: #c9d1d9;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-
-    pre.code-view::-webkit-scrollbar { width: 6px; height: 6px; }
-    pre.code-view::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-
-    /* Syntax highlighting */
-    .tok-kw { color: #ff7b72; }
-    .tok-str { color: #a5d6ff; }
-    .tok-cmt { color: #8b949e; font-style: italic; }
-    .tok-dec { color: #d2a8ff; }
-    .tok-cls { color: #ffa657; }
-    .tok-prop { color: #79c0ff; }
-
-    /* Empty state */
+    /* Empty / loading states */
     .empty-state {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      opacity: 0.4;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; opacity: 0.4;
     }
+    .empty-icon  { font-size: 44px; filter: grayscale(1); }
+    .empty-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+    .empty-sub   { font-size: 0.78rem; color: var(--text-dim); }
 
-    .empty-icon {
-      font-size: 48px;
-      filter: grayscale(1);
-    }
-
-    .empty-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .empty-sub {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-    }
-
-    /* Loading overlay */
     .loading-overlay {
-      flex: 1;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
+      flex: 1; display: none;
+      flex-direction: column; align-items: center; justify-content: center; gap: 22px;
     }
-
     .loading-overlay.visible { display: flex; }
-
     .spinner-ring {
-      width: 56px; height: 56px;
+      width: 52px; height: 52px;
       border: 3px solid rgba(99,102,241,0.15);
       border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    .loading-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: flex-start;
-    }
-
+    .loading-steps { display: flex; flex-direction: column; gap: 7px; }
     .load-step {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
+      font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim);
+      display: flex; align-items: center; gap: 8px; transition: color 0.3s;
     }
-
     .load-step.active { color: var(--primary); }
-    .load-step.done { color: var(--success); }
+    .load-step.done   { color: var(--success); }
+    .step-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
-    .step-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-      flex-shrink: 0;
-    }
-
-    /* Tokens panel */
-    .tokens-grid {
-      padding: 24px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
-      overflow-y: auto;
-      height: 100%;
-    }
-
-    .token-section {
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px;
-    }
-
-    .token-section h4 {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-
-    .token-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 4px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-
-    .token-row:last-child { border-bottom: none; }
-
-    .token-name {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      color: var(--text-dim);
-    }
-
-    .token-value {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      color: var(--text);
-    }
-
-    .color-swatch {
-      width: 16px; height: 16px;
-      border-radius: 3px;
-      border: 1px solid rgba(255,255,255,0.1);
-      flex-shrink: 0;
-    }
-
-    /* Attempts badge */
     .attempt-badge {
-      padding: 2px 8px;
+      padding: 2px 7px;
       background: rgba(245,158,11,0.1);
       border: 1px solid rgba(245,158,11,0.3);
       border-radius: 9999px;
-      font-size: 0.65rem;
+      font-size: 0.63rem; font-family: var(--font-mono); color: var(--warning);
+    }
+
+    /* Tokens tab */
+    .tokens-grid {
+      padding: 20px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 11px; overflow-y: auto; height: 100%;
+    }
+    .token-section { background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px; }
+    .token-section h4 { font-family: var(--font-mono); font-size: 0.63rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 9px; }
+    .token-row { display: flex; align-items: center; justify-content: space-between; gap: 7px; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .token-row:last-child { border-bottom: none; }
+    .token-name  { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-dim); }
+    .token-value { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text); }
+    .color-swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+
+    /* Preview note banner */
+    .preview-note {
+      padding: 6px 18px;
+      background: rgba(245,158,11,0.06);
+      border-bottom: 1px solid rgba(245,158,11,0.15);
+      font-size: 0.68rem;
       font-family: var(--font-mono);
-      color: var(--warning);
+      color: #fcd34d;
+      display: flex;
+      align-items: center;
+      gap: 7px;
     }
   </style>
 </head>
@@ -596,7 +405,7 @@
       <div class="chat-history" id="chatHistory">
         <div class="msg msg-system">
           <div class="msg-label">System</div>
-          Ready. Describe an Angular component to generate. Supports multi-turn editing (e.g., "Now make the button pill-shaped").
+          Ready. Describe an Angular component. Use the Preview tab to see it rendered live. Supports multi-turn editing.
         </div>
       </div>
     </div>
@@ -606,7 +415,7 @@
       <div class="prompt-wrapper">
         <textarea id="promptInput" placeholder="e.g. A glassmorphism login card with email/password fields and a primary button..." rows="4"></textarea>
         <button class="send-btn" id="sendBtn" onclick="generate()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
           </svg>
         </button>
@@ -615,31 +424,33 @@
       <div class="section-label">Quick examples</div>
       <div class="examples-row">
         <div class="example-chip" onclick="useExample(this)">Login card (glass)</div>
-        <div class="example-chip" onclick="useExample(this)">Dashboard stats row</div>
+        <div class="example-chip" onclick="useExample(this)">Dashboard stats</div>
         <div class="example-chip" onclick="useExample(this)">Pricing card</div>
         <div class="example-chip" onclick="useExample(this)">Notification toast</div>
-        <div class="example-chip" onclick="useExample(this)">Search bar with icon</div>
-        <div class="example-chip" onclick="useExample(this)">User profile card</div>
+        <div class="example-chip" onclick="useExample(this)">Search bar</div>
+        <div class="example-chip" onclick="useExample(this)">Profile card</div>
       </div>
 
       <div class="status-strip" id="statusStrip">
         <div class="status-dot idle" id="statusDot"></div>
-        <span id="statusText" style="color: var(--text-dim);">Idle — awaiting prompt</span>
+        <span id="statusText" style="color:var(--text-dim)">Idle — awaiting prompt</span>
       </div>
 
       <div id="validationResults"></div>
     </div>
   </div>
 
-  <!-- ── RIGHT: Code + Tokens ── -->
+  <!-- ── RIGHT: Tabs ── -->
   <div class="right-panel">
     <div class="panel-tabs">
-      <div class="tab active" onclick="switchTab('code', this)">Component Code</div>
-      <div class="tab" onclick="switchTab('tokens', this)">Design Tokens</div>
+      <div class="tab active" onclick="switchTab('code',this)">Component Code</div>
+      <div class="tab" onclick="switchTab('preview',this)">🖼 Live Preview</div>
+      <div class="tab" onclick="switchTab('tokens',this)">Design Tokens</div>
     </div>
 
     <div class="panel-body">
-      <!-- Code Tab -->
+
+      <!-- ── CODE TAB ── -->
       <div class="tab-pane active" id="tab-code">
         <div id="emptyState" class="empty-state">
           <div class="empty-icon">🧩</div>
@@ -657,7 +468,7 @@
           </div>
         </div>
 
-        <div id="codeState" style="display:none; flex-direction:column; height:100%;">
+        <div id="codeState" style="display:none;flex-direction:column;height:100%">
           <div class="code-toolbar">
             <div class="file-tag">
               📄 <span id="componentName">component.ts</span>
@@ -665,7 +476,7 @@
             </div>
             <div class="toolbar-btns">
               <button class="btn-sm" onclick="copyCode()">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 Copy
               </button>
               <button class="btn-sm primary" onclick="downloadCode()">
@@ -678,38 +489,81 @@
         </div>
       </div>
 
-      <!-- Tokens Tab -->
+      <!-- ── PREVIEW TAB ── -->
+      <div class="tab-pane" id="tab-preview">
+        <div id="previewEmpty" class="empty-state">
+          <div class="empty-icon">🖼️</div>
+          <div class="empty-title">No preview yet</div>
+          <div class="empty-sub">Generate a component first, then click Live Preview</div>
+        </div>
+
+        <div id="previewReady" style="display:none;flex-direction:column;height:100%">
+          <div class="preview-note">
+            ⚡ Preview extracts HTML + CSS from the Angular TypeScript and renders it live — no Angular compiler needed
+          </div>
+          <div class="preview-toolbar">
+            <div class="preview-info">
+              <div class="dot"></div>
+              <span id="previewComponentName">component</span>
+              <span style="opacity:0.4">·</span>
+              <span style="color:var(--secondary)">HTML + CSS extracted</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim)">Background:</span>
+              <div class="bg-switcher">
+                <button class="bg-btn active" style="background:#0d1120" onclick="setBg('#0d1120',this)" title="Dark"></button>
+                <button class="bg-btn" style="background:#1e293b" onclick="setBg('#1e293b',this)" title="Slate"></button>
+                <button class="bg-btn" style="background:#f1f5f9" onclick="setBg('#f1f5f9',this)" title="Light"></button>
+                <button class="bg-btn" style="background:#ffffff" onclick="setBg('#ffffff',this)" title="White"></button>
+                <button class="bg-btn" style="background: linear-gradient(135deg,#667eea,#764ba2);border:2px solid transparent" onclick="setBg('linear-gradient(135deg,#667eea,#764ba2)',this)" title="Gradient"></button>
+              </div>
+              <button class="btn-sm" onclick="refreshPreview()">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                Refresh
+              </button>
+            </div>
+          </div>
+          <div class="preview-frame-wrap">
+            <iframe id="previewFrame" title="Component Preview"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TOKENS TAB ── -->
       <div class="tab-pane" id="tab-tokens">
         <div class="tokens-grid" id="tokensGrid">Loading tokens...</div>
       </div>
+
     </div>
   </div>
 </main>
 
 <script>
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   // CONFIG
-  // ─────────────────────────────────────────
-  const API_BASE = 'https://angular-component-architect.onrender.com';
+  // ─────────────────────────────────────
+  const API_BASE   = 'https://angular-component-architect.onrender.com';
   const SESSION_ID = 'session_' + Math.random().toString(36).slice(2);
-  let currentCode = '';
+  let currentCode  = '';
+  let currentBg    = '#0d1120';
 
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   // TABS
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   function switchTab(name, el) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
     el.classList.add('active');
     document.getElementById('tab-' + name).classList.add('active');
-    if (name === 'tokens') loadTokens();
+    if (name === 'tokens')  loadTokens();
+    if (name === 'preview') renderPreview();
   }
 
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   // GENERATE
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   async function generate() {
-    const input = document.getElementById('promptInput');
+    const input  = document.getElementById('promptInput');
     const prompt = input.value.trim();
     if (!prompt) return;
 
@@ -735,11 +589,14 @@
       currentCode = data.code;
 
       showCode(data);
+      renderPreview();
 
       const summary = `✅ Generated in ${data.attempts} attempt(s). ${data.hard_errors.length} errors, ${data.warnings.length} warnings.`;
       addMessage('system', summary);
       setStatus(data.success ? 'success' : 'error',
-        data.success ? `Done (${data.attempts} attempt${data.attempts > 1 ? 's' : ''})` : 'Completed with errors');
+        data.success
+          ? `Done (${data.attempts} attempt${data.attempts > 1 ? 's' : ''})`
+          : 'Completed with errors');
 
       showValidation(data);
 
@@ -750,36 +607,164 @@
     }
   }
 
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
+  // PREVIEW ENGINE
+  // ─────────────────────────────────────
+  function extractFromTS(code) {
+    // ── Extract template ──────────────────────────────
+    let html = '';
+
+    // template: `...` (backtick)
+    const btMatch = code.match(/template\s*:\s*`([\s\S]*?)`/);
+    if (btMatch) html = btMatch[1];
+
+    // template: '...' or "..." (single/double quotes, possibly multiline)
+    if (!html) {
+      const sqMatch = code.match(/template\s*:\s*['"]([^'"]*)['"]/s);
+      if (sqMatch) html = sqMatch[1];
+    }
+
+    // ── Extract styles ────────────────────────────────
+    let css = '';
+
+    // styles: [`...`]
+    const cssArr = code.match(/styles\s*:\s*\[\s*`([\s\S]*?)`\s*\]/);
+    if (cssArr) css = cssArr[1];
+
+    // styles: ['...'] or ["..."]
+    if (!css) {
+      const cssStr = code.match(/styles\s*:\s*\[\s*['"]([^'"]*)['"]\s*\]/s);
+      if (cssStr) css = cssStr[1];
+    }
+
+    // styleUrls fallback — extract any inline style blocks from template
+    if (!css) {
+      const styleTag = html.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+      if (styleTag) css = styleTag[1];
+    }
+
+    return { html: html.trim(), css: css.trim() };
+  }
+
+  function renderPreview() {
+    if (!currentCode) return;
+
+    const { html, css } = extractFromTS(currentCode);
+
+    // Show the preview panel content
+    document.getElementById('previewEmpty').style.display = 'none';
+    const pr = document.getElementById('previewReady');
+    pr.style.display = 'flex';
+
+    // Extract component name for label
+    const sel = currentCode.match(/selector\s*:\s*['"`]([^'"`]+)['"`]/);
+    document.getElementById('previewComponentName').textContent =
+      sel ? sel[1] : 'component';
+
+    // Build the iframe document
+    const doc = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --secondary: #06b6d4;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --white: #ffffff;
+    --black: #000000;
+    --neutral-50: #f9fafb;
+    --neutral-100: #f3f4f6;
+    --neutral-200: #e5e7eb;
+    --neutral-300: #d1d5db;
+    --neutral-400: #9ca3af;
+    --neutral-500: #6b7280;
+    --neutral-600: #4b5563;
+    --neutral-700: #374151;
+    --neutral-800: #1f2937;
+    --neutral-900: #111827;
+    font-family: 'Inter', sans-serif;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    background: ${currentBg};
+    font-family: 'Inter', sans-serif;
+  }
+  /* Angular component host wrapper */
+  .component-host {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ${css}
+</style>
+</head>
+<body>
+  <div class="component-host">
+    ${html || '<p style="color:#6b7280;font-family:Inter,sans-serif;font-size:14px">No template found in this component</p>'}
+  </div>
+</body>
+</html>`;
+
+    const frame = document.getElementById('previewFrame');
+    frame.srcdoc = doc;
+  }
+
+  function refreshPreview() {
+    renderPreview();
+    setStatus('success', 'Preview refreshed');
+    setTimeout(() => setStatus('idle','Idle'), 1500);
+  }
+
+  function setBg(color, btn) {
+    currentBg = color;
+    document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderPreview();
+  }
+
+  // ─────────────────────────────────────
   // UI HELPERS
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   function showLoading() {
-    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('emptyState').style.display   = 'none';
     document.getElementById('loadingState').style.display = 'flex';
-    document.getElementById('codeState').style.display = 'none';
+    document.getElementById('codeState').style.display    = 'none';
   }
 
   function showEmpty() {
-    document.getElementById('emptyState').style.display = 'flex';
+    document.getElementById('emptyState').style.display   = 'flex';
     document.getElementById('loadingState').style.display = 'none';
-    document.getElementById('codeState').style.display = 'none';
+    document.getElementById('codeState').style.display    = 'none';
   }
 
   function showCode(data) {
-    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('emptyState').style.display   = 'none';
     document.getElementById('loadingState').style.display = 'none';
     const cs = document.getElementById('codeState');
     cs.style.display = 'flex';
 
-    // Extract component name
-    const match = data.code.match(/selector:\s*['"`]([^'"`]+)['"`]/);
-    const sel = match ? match[1] : 'component';
-    const fileName = sel.replace('app-', '') + '.component.ts';
-    document.getElementById('componentName').textContent = fileName;
+    const match = data.code.match(/selector\s*:\s*['"`]([^'"`]+)['"`]/);
+    const sel   = match ? match[1] : 'component';
+    document.getElementById('componentName').textContent = sel.replace('app-','') + '.component.ts';
+    document.getElementById('previewComponentName').textContent = sel;
 
     if (data.attempts > 1) {
       const badge = document.getElementById('attemptBadge');
-      badge.textContent = `${data.attempts} attempts`;
+      badge.textContent   = `${data.attempts} attempts`;
       badge.style.display = 'inline';
     } else {
       document.getElementById('attemptBadge').style.display = 'none';
@@ -790,7 +775,7 @@
 
   function addMessage(role, text) {
     const history = document.getElementById('chatHistory');
-    const div = document.createElement('div');
+    const div     = document.createElement('div');
     div.className = `msg msg-${role}`;
     div.innerHTML = `<div class="msg-label">${role === 'user' ? '👤 You' : '🤖 System'}</div>${escHtml(text)}`;
     history.appendChild(div);
@@ -798,10 +783,14 @@
   }
 
   function setStatus(state, text) {
-    const dot = document.getElementById('statusDot');
+    const dot  = document.getElementById('statusDot');
+    const span = document.getElementById('statusText');
     dot.className = 'status-dot ' + state;
-    document.getElementById('statusText').textContent = text;
-    document.getElementById('statusText').style.color = state === 'success' ? 'var(--success)' : state === 'error' ? 'var(--error)' : state === 'loading' ? 'var(--accent)' : 'var(--text-dim)';
+    span.textContent = text;
+    span.style.color = state === 'success' ? 'var(--success)'
+                     : state === 'error'   ? 'var(--error)'
+                     : state === 'loading' ? 'var(--accent)'
+                     : 'var(--text-dim)';
   }
 
   function showValidation(data) {
@@ -810,7 +799,8 @@
       el.innerHTML = `<div class="validation-list"><div class="v-item success">✓ All design tokens validated</div></div>`;
       return;
     }
-    const items = data.hard_errors.map(e => `<div class="v-item error">${escHtml(e)}</div>`).join('') +
+    const items =
+      data.hard_errors.map(e => `<div class="v-item error">${escHtml(e)}</div>`).join('') +
       data.warnings.map(w => `<div class="v-item warning">${escHtml(w)}</div>`).join('');
     el.innerHTML = `<div class="validation-list">${items}</div>`;
   }
@@ -818,10 +808,7 @@
   let stepTimer;
   function animateSteps() {
     const steps = ['step1','step2','step3','step4'];
-    steps.forEach(s => {
-      const el = document.getElementById(s);
-      el.classList.remove('active','done');
-    });
+    steps.forEach(s => { const el = document.getElementById(s); el.classList.remove('active','done'); });
     document.getElementById('step1').classList.add('active');
     let i = 0;
     clearInterval(stepTimer);
@@ -835,50 +822,50 @@
     }, 1200);
   }
 
-  // ─────────────────────────────────────────
-  // SYNTAX HIGHLIGHT (minimal)
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
+  // SYNTAX HIGHLIGHT
+  // ─────────────────────────────────────
   function syntaxHL(code) {
     return escHtml(code)
-      .replace(/(@Component|@NgModule|@Input|@Output|import|export|class|from|const|let|var|return|new|async|await|if|else|function|extends|implements)\b/g, '<span class="tok-kw">$1</span>')
-      .replace(/('([^'\\]|\\.)*'|"([^"\\]|\\.)*"|`([^`\\]|\\.)*`)/g, '<span class="tok-str">$1</span>')
-      .replace(/(\/\/[^\n]*)/g, '<span class="tok-cmt">$1</span>')
-      .replace(/(@\w+)/g, '<span class="tok-dec">$1</span>');
+      .replace(/\b(import|export|from|class|const|let|var|return|new|async|await|if|else|function|extends|implements|default)\b/g,'<span class="tok-kw">$1</span>')
+      .replace(/(@Component|@NgModule|@Input|@Output|@Injectable)/g,'<span class="tok-dec">$1</span>')
+      .replace(/(\/\/[^\n]*)/g,'<span class="tok-cmt">$1</span>')
+      .replace(/('([^'\\]|\\.)*'|"([^"\\]|\\.)*"|`([^`\\]|\\.)*`)/g,'<span class="tok-str">$1</span>');
   }
 
   function escHtml(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   // COPY / DOWNLOAD
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   function copyCode() {
     navigator.clipboard.writeText(currentCode);
-    setStatus('success', 'Copied to clipboard!');
-    setTimeout(() => setStatus('idle', 'Idle'), 2000);
+    setStatus('success','Copied to clipboard!');
+    setTimeout(() => setStatus('idle','Idle'), 2000);
   }
 
   function downloadCode() {
-    const match = currentCode.match(/selector:\s*['"`]([^'"`]+)['"`]/);
-    const name = match ? match[1].replace('app-', '') + '.component.ts' : 'component.ts';
-    const blob = new Blob([currentCode], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = name;
+    const match = currentCode.match(/selector\s*:\s*['"`]([^'"`]+)['"`]/);
+    const name  = match ? match[1].replace('app-','') + '.component.ts' : 'component.ts';
+    const blob  = new Blob([currentCode], { type: 'text/plain' });
+    const a     = document.createElement('a');
+    a.href      = URL.createObjectURL(blob);
+    a.download  = name;
     a.click();
   }
 
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   // EXAMPLES
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   const EXAMPLES = {
-    'Login card (glass)': 'A glassmorphism login card with email and password fields, a primary sign-in button using color #6366f1, and "Forgot password?" link',
-    'Dashboard stats row': 'A dashboard statistics row with 4 metric cards showing numbers with icons, using primary color #6366f1 for highlights',
-    'Pricing card': 'A pricing card with a featured plan highlighted in primary color #6366f1, feature list with checkmarks, and a CTA button',
-    'Notification toast': 'A notification toast component with success/error/warning variants using the design system colors, with dismiss button',
-    'Search bar with icon': 'A search bar with a magnifier icon, placeholder text, and a search button styled with primary color #6366f1',
-    'User profile card': 'A user profile card with avatar, name, role badge, bio text, and follow button using primary color #6366f1',
+    'Login card (glass)':   'A glassmorphism login card with email and password fields, a primary sign-in button using color #6366f1, and "Forgot password?" link',
+    'Dashboard stats':      'A dashboard statistics row with 4 metric cards showing numbers with icons, using primary color #6366f1 for highlights',
+    'Pricing card':         'A pricing card with a featured plan highlighted in primary color #6366f1, feature list with checkmarks, and a CTA button',
+    'Notification toast':   'A notification toast component with success/error/warning variants using the design system colors, with dismiss button',
+    'Search bar':           'A search bar with a magnifier icon, placeholder text, and a search button styled with primary color #6366f1',
+    'Profile card':         'A user profile card with avatar, name, role badge, bio text, and follow button using primary color #6366f1',
   };
 
   function useExample(el) {
@@ -886,19 +873,19 @@
     document.getElementById('promptInput').focus();
   }
 
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   // TOKENS
-  // ─────────────────────────────────────────
+  // ─────────────────────────────────────
   async function loadTokens() {
     const grid = document.getElementById('tokensGrid');
     if (grid.dataset.loaded) return;
     try {
-      const res = await fetch(`${API_BASE}/tokens`);
+      const res    = await fetch(`${API_BASE}/tokens`);
       const tokens = await res.json();
       renderTokens(tokens);
       grid.dataset.loaded = '1';
     } catch(e) {
-      grid.innerHTML = '<div style="color:var(--text-dim);padding:20px;font-family:var(--font-mono);font-size:0.8rem;">Could not load tokens — make sure the backend is running.</div>';
+      grid.innerHTML = '<div style="color:var(--text-dim);padding:20px;font-family:var(--font-mono);font-size:0.78rem">Could not load tokens — make sure the backend is running.</div>';
     }
   }
 
@@ -908,10 +895,12 @@
     for (const [section, values] of Object.entries(tokens)) {
       const div = document.createElement('div');
       div.className = 'token-section';
-      div.innerHTML = `<h4>${section}</h4>` + Object.entries(values).map(([k, v]) => {
-        const swatch = v.startsWith('#') ? `<div class="color-swatch" style="background:${v}"></div>` : '';
-        return `<div class="token-row">${swatch}<span class="token-name">${k}</span><span class="token-value">${v}</span></div>`;
-      }).join('');
+      div.innerHTML = `<h4>${section}</h4>` +
+        Object.entries(values).map(([k,v]) => {
+          const swatch = String(v).startsWith('#')
+            ? `<div class="color-swatch" style="background:${v}"></div>` : '';
+          return `<div class="token-row">${swatch}<span class="token-name">${k}</span><span class="token-value">${v}</span></div>`;
+        }).join('');
       grid.appendChild(div);
     }
   }
