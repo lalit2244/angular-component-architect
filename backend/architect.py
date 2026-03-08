@@ -13,7 +13,6 @@ from groq import Groq
 # ─────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────
-DESIGN_TOKENS_PATH = Path(__file__).parent.parent / "design-system" / "tokens.json"
 MAX_RETRIES = 2
 MODEL = "llama-3.3-70b-versatile"
 
@@ -50,7 +49,15 @@ Your job is to generate COMPLETE, VALID Angular components using inline styles.
 7. Component selector must be kebab-case (e.g., app-login-card).
 8. Include @Component decorator with selector, template, and styles.
 9. Use inline template strings (no separate HTML file reference).
-10. The component must be visually polished and match the user's description exactly.
+10. The component must be visually polished and match the user description exactly.
+11. ALL cards and containers MUST have: box-sizing: border-box; min-width: 0; overflow: hidden; word-break: break-word;
+12. Text inside cards must NEVER overflow — always use word-wrap: break-word; overflow-wrap: break-word;
+13. For row layouts ALWAYS use: display: flex; flex-wrap: wrap; gap: 16px; width: 100%; box-sizing: border-box;
+14. Each card in a row MUST have: flex: 1 1 140px; min-width: 140px; max-width: 100%; box-sizing: border-box;
+15. Numbers and metric values MUST use: font-size that fits — never overflow the card width.
+16. The root host element style MUST include: display: block; width: 100%; box-sizing: border-box;
+17. Never use fixed pixel widths on cards — use flex or percentage widths only.
+18. Padding inside cards should be at least 12px on all sides.
 
 === OUTPUT FORMAT ===
 Start directly with: import {{ Component }} from '@angular/core';
@@ -216,10 +223,8 @@ def _check_font_compliance(code: str, tokens: dict) -> list[ValidationError]:
     font_matches = re.findall(r"font-family[:\s]+([^;\"'`}]+)", code)
     for match in font_matches:
         match_clean = match.strip().strip("'\"").strip()
-        # Skip empty values
         if not match_clean:
             continue
-        # Skip if it contains any allowed font
         if any(af.lower() in match.lower() for af in allowed_fonts):
             continue
         errors.append(
@@ -257,7 +262,7 @@ def run_pipeline(user_prompt: str, api_key: str, conversation_history: list = No
         full_prompt = f"Previous conversation context:\n{history_str}\n\nNew request: {user_prompt}"
 
     print(f"\n{'='*60}")
-    print(f"🎯 Generating component for: {user_prompt}")
+    print(f"Generating component for: {user_prompt}")
     print(f"{'='*60}")
 
     code = ""
@@ -267,62 +272,61 @@ def run_pipeline(user_prompt: str, api_key: str, conversation_history: list = No
 
     for attempt in range(MAX_RETRIES + 1):
         print(f"\n{'─'*40}")
-        print(f"⚡ Attempt {attempt + 1}/{MAX_RETRIES + 1}: Calling LLM...")
+        print(f"Attempt {attempt + 1}/{MAX_RETRIES + 1}: Calling LLM...")
         code = generate_component(client, system_prompt, full_prompt, feedback)
 
-        print(f"✅ Generated {len(code)} characters of code")
-        print(f"\n🔍 Running Linter-Agent...")
+        print(f"Generated {len(code)} characters of code")
+        print(f"\nRunning Linter-Agent...")
 
         errors = validate_component(code, tokens)
         hard_errors = [e for e in errors if e.severity == "error"]
-        warnings = [e for e in errors if e.severity == "warning"]
-
-        all_errors = errors
+        warnings    = [e for e in errors if e.severity == "warning"]
+        all_errors  = errors
 
         if warnings:
-            print(f"⚠️  {len(warnings)} warning(s):")
+            print(f"{len(warnings)} warning(s):")
             for w in warnings:
                 print(f"   {w}")
 
         if not hard_errors:
-            print(f"✅ Validation PASSED! ({len(warnings)} warnings)")
+            print(f"Validation PASSED! ({len(warnings)} warnings)")
             break
         else:
-            print(f"❌ Validation FAILED — {len(hard_errors)} error(s):")
+            print(f"Validation FAILED — {len(hard_errors)} error(s):")
             for e in hard_errors:
                 print(f"   {e}")
 
             if attempt < MAX_RETRIES:
-                print(f"\n🔄 Self-correcting... (retry {attempt + 1}/{MAX_RETRIES})")
+                print(f"\nSelf-correcting... (retry {attempt + 1}/{MAX_RETRIES})")
                 feedback = "VALIDATION ERRORS FROM LINTER:\n" + "\n".join(str(e) for e in hard_errors)
                 feedback += "\n\nFix ALL errors above. Output ONLY the corrected raw TypeScript code."
             else:
-                print(f"\n⚠️  Max retries reached. Returning best attempt.")
+                print(f"\nMax retries reached. Returning best attempt.")
 
     return {
-        "code": code,
-        "errors": [str(e) for e in all_errors],
-        "warnings": [str(e) for e in all_errors if e.severity == "warning"],
+        "code":        code,
+        "errors":      [str(e) for e in all_errors],
+        "warnings":    [str(e) for e in all_errors if e.severity == "warning"],
         "hard_errors": [str(e) for e in all_errors if e.severity == "error"],
-        "attempts": attempt + 1,
-        "success": len([e for e in all_errors if e.severity == "error"]) == 0,
-        "prompt": user_prompt,
+        "attempts":    attempt + 1,
+        "success":     len([e for e in all_errors if e.severity == "error"]) == 0,
+        "prompt":      user_prompt,
     }
 
 
 if __name__ == "__main__":
     api_key = os.environ.get("GROQ_API_KEY", "")
     if not api_key:
-        print("❌ Set GROQ_API_KEY environment variable")
+        print("Set GROQ_API_KEY environment variable")
         sys.exit(1)
 
     prompt = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else "A login card with glassmorphism effect"
     result = run_pipeline(prompt, api_key)
 
     print(f"\n{'='*60}")
-    print("📋 FINAL RESULT")
+    print("FINAL RESULT")
     print(f"{'='*60}")
-    print(f"Success: {result['success']}")
+    print(f"Success:  {result['success']}")
     print(f"Attempts: {result['attempts']}")
     print(f"\n--- COMPONENT CODE ---\n")
     print(result["code"])
