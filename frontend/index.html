@@ -30,7 +30,7 @@
       --radius: 12px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: var(--font-sans);
@@ -42,38 +42,30 @@
 
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image:
         linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
       background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
 
     body::after {
       content: '';
-      position: fixed;
-      top: -200px; left: -200px;
+      position: fixed; top: -200px; left: -200px;
       width: 600px; height: 600px;
       background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
 
     /* ── HEADER ── */
     header {
-      position: relative;
-      z-index: 10;
+      position: relative; z-index: 10;
       padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1px solid var(--border);
       backdrop-filter: blur(12px);
     }
-
     .logo { display: flex; align-items: center; gap: 12px; }
     .logo-icon {
       width: 34px; height: 34px;
@@ -83,68 +75,45 @@
       font-size: 16px;
     }
     .logo-text {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text-bright);
+      font-family: var(--font-display); font-size: 1.05rem;
+      font-weight: 700; letter-spacing: -0.02em; color: var(--text-bright);
     }
     .logo-text span { color: var(--primary); }
     .badge {
       padding: 4px 10px;
       background: rgba(99,102,241,0.12);
-      border: 1px solid var(--border);
-      border-radius: 9999px;
-      font-size: 0.68rem;
-      font-family: var(--font-mono);
-      color: var(--primary);
-      letter-spacing: 0.05em;
+      border: 1px solid var(--border); border-radius: 9999px;
+      font-size: 0.68rem; font-family: var(--font-mono);
+      color: var(--primary); letter-spacing: 0.05em;
     }
 
     /* ── MAIN LAYOUT ── */
     main {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 400px 1fr;
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 400px 1fr;
       height: calc(100vh - 69px);
     }
 
     /* ── LEFT PANEL ── */
     .left-panel {
       border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      padding: 22px;
-      gap: 16px;
-      overflow-y: auto;
+      display: flex; flex-direction: column;
+      padding: 22px; gap: 16px; overflow-y: auto;
     }
-
     .section-label {
-      font-family: var(--font-mono);
-      font-size: 0.63rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 6px;
+      font-family: var(--font-mono); font-size: 0.63rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 6px;
     }
-
     .chat-history {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      overflow-y: auto;
-      min-height: 0;
+      flex: 1; display: flex; flex-direction: column;
+      gap: 10px; overflow-y: auto; min-height: 0;
     }
     .chat-history::-webkit-scrollbar { width: 3px; }
     .chat-history::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-
     .msg {
-      padding: 11px 13px;
-      border-radius: var(--radius);
-      font-size: 0.845rem;
-      line-height: 1.55;
+      padding: 11px 13px; border-radius: var(--radius);
+      font-size: 0.845rem; line-height: 1.55;
       animation: fadeSlide 0.3s ease;
     }
     @keyframes fadeSlide {
@@ -156,22 +125,15 @@
     .msg-label  { font-size: 0.63rem; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.6; }
 
     .input-area { display: flex; flex-direction: column; gap: 9px; }
-
     .prompt-wrapper { position: relative; }
     textarea {
       width: 100%;
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
+      background: var(--bg-panel); border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 13px 46px 13px 13px;
-      color: var(--text);
-      font-family: var(--font-sans);
-      font-size: 0.845rem;
-      line-height: 1.55;
-      resize: none;
-      min-height: 85px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
+      padding: 13px 46px 13px 13px; color: var(--text);
+      font-family: var(--font-sans); font-size: 0.845rem;
+      line-height: 1.55; resize: none; min-height: 85px;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none;
     }
     textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
     textarea::placeholder { color: var(--text-dim); }
@@ -190,10 +152,8 @@
     .examples-row { display: flex; flex-wrap: wrap; gap: 5px; }
     .example-chip {
       padding: 4px 9px;
-      background: rgba(99,102,241,0.06);
-      border: 1px solid var(--border);
-      border-radius: 9999px;
-      font-size: 0.7rem;
+      background: rgba(99,102,241,0.06); border: 1px solid var(--border);
+      border-radius: 9999px; font-size: 0.7rem;
       cursor: pointer; transition: all 0.2s; color: var(--text-dim); white-space: nowrap;
     }
     .example-chip:hover { background: rgba(99,102,241,0.15); border-color: var(--border-strong); color: var(--text); }
@@ -201,10 +161,8 @@
     .status-strip {
       display: flex; align-items: center; gap: 8px;
       padding: 9px 11px;
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.73rem; font-family: var(--font-mono);
+      background: var(--bg-panel); border: 1px solid var(--border);
+      border-radius: 8px; font-size: 0.73rem; font-family: var(--font-mono);
     }
     .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
     .status-dot.idle    { background: var(--text-dim); }
@@ -221,15 +179,12 @@
 
     /* ── RIGHT PANEL ── */
     .right-panel { display: flex; flex-direction: column; }
-
     .panel-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border);
+      display: flex; border-bottom: 1px solid var(--border);
       padding: 0 24px; gap: 0;
     }
     .tab {
-      padding: 13px 18px;
-      font-size: 0.78rem; font-family: var(--font-mono);
+      padding: 13px 18px; font-size: 0.78rem; font-family: var(--font-mono);
       color: var(--text-dim); cursor: pointer;
       border-bottom: 2px solid transparent;
       transition: all 0.2s; letter-spacing: 0.04em;
@@ -241,11 +196,10 @@
     .tab-pane { display: none; height: 100%; }
     .tab-pane.active { display: flex; flex-direction: column; height: 100%; }
 
-    /* Code tab */
+    /* ── CODE TAB ── */
     .code-toolbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 9px 18px;
-      border-bottom: 1px solid var(--border);
+      padding: 9px 18px; border-bottom: 1px solid var(--border);
       background: var(--bg-card);
     }
     .file-tag { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
@@ -263,9 +217,8 @@
     .btn-sm.primary:hover { background: var(--primary-dark); }
 
     pre.code-view {
-      flex: 1; overflow: auto;
-      padding: 22px; font-family: var(--font-mono);
-      font-size: 0.78rem; line-height: 1.72;
+      flex: 1; overflow: auto; padding: 22px;
+      font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.72;
       background: var(--bg-card); color: #c9d1d9;
       white-space: pre-wrap; word-break: break-all;
     }
@@ -280,23 +233,15 @@
     /* ── PREVIEW TAB ── */
     .preview-toolbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 9px 18px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-card);
-      gap: 12px;
+      padding: 9px 18px; border-bottom: 1px solid var(--border);
+      background: var(--bg-card); gap: 12px; flex-wrap: wrap;
     }
-
     .preview-info {
       display: flex; align-items: center; gap: 10px;
       font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);
     }
-
     .preview-info .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
-
-    .bg-switcher {
-      display: flex; gap: 5px; align-items: center;
-    }
-
+    .bg-switcher { display: flex; gap: 5px; align-items: center; }
     .bg-btn {
       width: 20px; height: 20px; border-radius: 50%;
       border: 2px solid transparent; cursor: pointer;
@@ -304,66 +249,40 @@
     }
     .bg-btn.active { border-color: var(--primary); }
     .bg-btn:hover  { border-color: var(--border-strong); }
-
-    .preview-frame-wrap {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
-
-    #previewFrame {
-      width: 100%; flex: 1;
-      border: none;
-      transition: background 0.3s;
-    }
+    .preview-frame-wrap { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    #previewFrame { width: 100%; flex: 1; border: none; }
 
     /* Empty / loading states */
     .empty-state {
       flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 14px; opacity: 0.4;
+      align-items: center; justify-content: center; gap: 14px; opacity: 0.4;
     }
     .empty-icon  { font-size: 44px; filter: grayscale(1); }
     .empty-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
     .empty-sub   { font-size: 0.78rem; color: var(--text-dim); }
 
-    .loading-overlay {
-      flex: 1; display: none;
-      flex-direction: column; align-items: center; justify-content: center; gap: 22px;
-    }
+    .loading-overlay { flex: 1; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 22px; }
     .loading-overlay.visible { display: flex; }
     .spinner-ring {
       width: 52px; height: 52px;
-      border: 3px solid rgba(99,102,241,0.15);
-      border-top-color: var(--primary);
+      border: 3px solid rgba(99,102,241,0.15); border-top-color: var(--primary);
       border-radius: 50%; animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-steps { display: flex; flex-direction: column; gap: 7px; }
-    .load-step {
-      font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim);
-      display: flex; align-items: center; gap: 8px; transition: color 0.3s;
-    }
+    .load-step { font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
     .load-step.active { color: var(--primary); }
     .load-step.done   { color: var(--success); }
     .step-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
     .attempt-badge {
       padding: 2px 7px;
-      background: rgba(245,158,11,0.1);
-      border: 1px solid rgba(245,158,11,0.3);
-      border-radius: 9999px;
-      font-size: 0.63rem; font-family: var(--font-mono); color: var(--warning);
+      background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3);
+      border-radius: 9999px; font-size: 0.63rem; font-family: var(--font-mono); color: var(--warning);
     }
 
     /* Tokens tab */
-    .tokens-grid {
-      padding: 20px;
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap: 11px; overflow-y: auto; height: 100%;
-    }
+    .tokens-grid { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap: 11px; overflow-y: auto; height: 100%; }
     .token-section { background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px; }
     .token-section h4 { font-family: var(--font-mono); font-size: 0.63rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 9px; }
     .token-row { display: flex; align-items: center; justify-content: space-between; gap: 7px; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
@@ -372,17 +291,11 @@
     .token-value { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text); }
     .color-swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
 
-    /* Preview note banner */
     .preview-note {
-      padding: 6px 18px;
-      background: rgba(245,158,11,0.06);
+      padding: 6px 18px; background: rgba(245,158,11,0.06);
       border-bottom: 1px solid rgba(245,158,11,0.15);
-      font-size: 0.68rem;
-      font-family: var(--font-mono);
-      color: #fcd34d;
-      display: flex;
-      align-items: center;
-      gap: 7px;
+      font-size: 0.68rem; font-family: var(--font-mono); color: #fcd34d;
+      display: flex; align-items: center; gap: 7px;
     }
   </style>
 </head>
@@ -444,8 +357,8 @@
   <div class="right-panel">
     <div class="panel-tabs">
       <div class="tab active" onclick="switchTab('code',this)">Component Code</div>
-      <div class="tab" onclick="switchTab('preview',this)">🖼 Live Preview</div>
-      <div class="tab" onclick="switchTab('tokens',this)">Design Tokens</div>
+      <div class="tab"        onclick="switchTab('preview',this)">🖼 Live Preview</div>
+      <div class="tab"        onclick="switchTab('tokens',this)">Design Tokens</div>
     </div>
 
     <div class="panel-body">
@@ -457,17 +370,15 @@
           <div class="empty-title">No component yet</div>
           <div class="empty-sub">Describe a component in the prompt panel</div>
         </div>
-
         <div id="loadingState" class="loading-overlay" style="display:none">
           <div class="spinner-ring"></div>
           <div class="loading-steps">
             <div class="load-step active" id="step1"><div class="step-dot"></div>Calling GROQ LLM...</div>
-            <div class="load-step" id="step2"><div class="step-dot"></div>Running Linter-Agent...</div>
-            <div class="load-step" id="step3"><div class="step-dot"></div>Self-correction loop...</div>
-            <div class="load-step" id="step4"><div class="step-dot"></div>Finalizing output...</div>
+            <div class="load-step"        id="step2"><div class="step-dot"></div>Running Linter-Agent...</div>
+            <div class="load-step"        id="step3"><div class="step-dot"></div>Self-correction loop...</div>
+            <div class="load-step"        id="step4"><div class="step-dot"></div>Finalizing output...</div>
           </div>
         </div>
-
         <div id="codeState" style="display:none;flex-direction:column;height:100%">
           <div class="code-toolbar">
             <div class="file-tag">
@@ -496,7 +407,6 @@
           <div class="empty-title">No preview yet</div>
           <div class="empty-sub">Generate a component first, then click Live Preview</div>
         </div>
-
         <div id="previewReady" style="display:none;flex-direction:column;height:100%">
           <div class="preview-note">
             ⚡ Preview extracts HTML + CSS from the Angular TypeScript and renders it live — no Angular compiler needed
@@ -508,14 +418,14 @@
               <span style="opacity:0.4">·</span>
               <span style="color:var(--secondary)">HTML + CSS extracted</span>
             </div>
-            <div style="display:flex;align-items:center;gap:12px">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
               <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim)">Background:</span>
               <div class="bg-switcher">
-                <button class="bg-btn active" style="background:#0d1120" onclick="setBg('#0d1120',this)" title="Dark"></button>
-                <button class="bg-btn" style="background:#1e293b" onclick="setBg('#1e293b',this)" title="Slate"></button>
-                <button class="bg-btn" style="background:#f1f5f9" onclick="setBg('#f1f5f9',this)" title="Light"></button>
-                <button class="bg-btn" style="background:#ffffff" onclick="setBg('#ffffff',this)" title="White"></button>
-                <button class="bg-btn" style="background: linear-gradient(135deg,#667eea,#764ba2);border:2px solid transparent" onclick="setBg('linear-gradient(135deg,#667eea,#764ba2)',this)" title="Gradient"></button>
+                <button class="bg-btn active" style="background:#0d1120" onclick="setBg('#0d1120',this)"         title="Dark"></button>
+                <button class="bg-btn"        style="background:#1e293b" onclick="setBg('#1e293b',this)"         title="Slate"></button>
+                <button class="bg-btn"        style="background:#f1f5f9" onclick="setBg('#f1f5f9',this)"         title="Light"></button>
+                <button class="bg-btn"        style="background:#ffffff" onclick="setBg('#ffffff',this)"         title="White"></button>
+                <button class="bg-btn"        style="background:linear-gradient(135deg,#667eea,#764ba2);border:2px solid transparent" onclick="setBg('linear-gradient(135deg,#667eea,#764ba2)',this)" title="Gradient"></button>
               </div>
               <button class="btn-sm" onclick="refreshPreview()">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
@@ -540,7 +450,7 @@
 
 <script>
   // ─────────────────────────────────────
-  // CONFIG
+  // CONFIG — update this to your Render URL
   // ─────────────────────────────────────
   const API_BASE   = 'https://angular-component-architect.onrender.com';
   const SESSION_ID = 'session_' + Math.random().toString(36).slice(2);
@@ -579,25 +489,21 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt, session_id: SESSION_ID })
       });
-
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err.detail || 'Server error');
       }
-
       const data = await res.json();
       currentCode = data.code;
-
       showCode(data);
       renderPreview();
 
       const summary = `✅ Generated in ${data.attempts} attempt(s). ${data.hard_errors.length} errors, ${data.warnings.length} warnings.`;
       addMessage('system', summary);
-      setStatus(data.success ? 'success' : 'error',
-        data.success
-          ? `Done (${data.attempts} attempt${data.attempts > 1 ? 's' : ''})`
-          : 'Completed with errors');
-
+      setStatus(
+        data.success ? 'success' : 'error',
+        data.success ? `Done (${data.attempts} attempt${data.attempts > 1 ? 's' : ''})` : 'Completed with errors'
+      );
       showValidation(data);
 
     } catch (e) {
@@ -611,36 +517,43 @@
   // PREVIEW ENGINE
   // ─────────────────────────────────────
   function extractFromTS(code) {
-    // ── Extract template ──────────────────────────────
     let html = '';
+    let css  = '';
 
-    // template: `...` (backtick)
+    // ── Extract template ──────────────────────────
+    // backtick template
     const btMatch = code.match(/template\s*:\s*`([\s\S]*?)`/);
     if (btMatch) html = btMatch[1];
 
-    // template: '...' or "..." (single/double quotes, possibly multiline)
+    // single/double quote template
     if (!html) {
-      const sqMatch = code.match(/template\s*:\s*['"]([^'"]*)['"]/s);
+      const sqMatch = code.match(/template\s*:\s*'([\s\S]*?)'/);
       if (sqMatch) html = sqMatch[1];
     }
+    if (!html) {
+      const dqMatch = code.match(/template\s*:\s*"([\s\S]*?)"/);
+      if (dqMatch) html = dqMatch[1];
+    }
 
-    // ── Extract styles ────────────────────────────────
-    let css = '';
-
+    // ── Extract styles ────────────────────────────
     // styles: [`...`]
     const cssArr = code.match(/styles\s*:\s*\[\s*`([\s\S]*?)`\s*\]/);
     if (cssArr) css = cssArr[1];
 
     // styles: ['...'] or ["..."]
     if (!css) {
-      const cssStr = code.match(/styles\s*:\s*\[\s*['"]([^'"]*)['"]\s*\]/s);
+      const cssStr = code.match(/styles\s*:\s*\[\s*'([\s\S]*?)'\s*\]/);
       if (cssStr) css = cssStr[1];
     }
-
-    // styleUrls fallback — extract any inline style blocks from template
     if (!css) {
+      const cssDQ = code.match(/styles\s*:\s*\[\s*"([\s\S]*?)"\s*\]/);
+      if (cssDQ) css = cssDQ[1];
+    }
+
+    // fallback: inline <style> tag inside template
+    if (!css && html) {
       const styleTag = html.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
-      if (styleTag) css = styleTag[1];
+      if (styleTag) { css = styleTag[1]; html = html.replace(/<style[^>]*>[\s\S]*?<\/style>/i, ''); }
     }
 
     return { html: html.trim(), css: css.trim() };
@@ -651,17 +564,13 @@
 
     const { html, css } = extractFromTS(currentCode);
 
-    // Show the preview panel content
     document.getElementById('previewEmpty').style.display = 'none';
     const pr = document.getElementById('previewReady');
     pr.style.display = 'flex';
 
-    // Extract component name for label
     const sel = currentCode.match(/selector\s*:\s*['"`]([^'"`]+)['"`]/);
-    document.getElementById('previewComponentName').textContent =
-      sel ? sel[1] : 'component';
+    document.getElementById('previewComponentName').textContent = sel ? sel[1] : 'component';
 
-    // Build the iframe document
     const doc = `<!DOCTYPE html>
 <html>
 <head>
@@ -669,57 +578,111 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ── RESET & BOX MODEL ── */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+  }
+
+  /* ── DESIGN SYSTEM VARIABLES ── */
   :root {
-    --primary: #6366f1;
+    --primary:      #6366f1;
     --primary-dark: #4f46e5;
-    --primary-light: #a5b4fc;
-    --secondary: #06b6d4;
-    --accent: #f59e0b;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --error: #ef4444;
-    --white: #ffffff;
-    --black: #000000;
-    --neutral-50: #f9fafb;
-    --neutral-100: #f3f4f6;
-    --neutral-200: #e5e7eb;
-    --neutral-300: #d1d5db;
-    --neutral-400: #9ca3af;
-    --neutral-500: #6b7280;
-    --neutral-600: #4b5563;
-    --neutral-700: #374151;
-    --neutral-800: #1f2937;
-    --neutral-900: #111827;
+    --primary-light:#a5b4fc;
+    --secondary:    #06b6d4;
+    --accent:       #f59e0b;
+    --success:      #10b981;
+    --warning:      #f59e0b;
+    --error:        #ef4444;
+    --white:        #ffffff;
+    --black:        #000000;
+    --neutral-50:   #f9fafb;
+    --neutral-100:  #f3f4f6;
+    --neutral-200:  #e5e7eb;
+    --neutral-300:  #d1d5db;
+    --neutral-400:  #9ca3af;
+    --neutral-500:  #6b7280;
+    --neutral-600:  #4b5563;
+    --neutral-700:  #374151;
+    --neutral-800:  #1f2937;
+    --neutral-900:  #111827;
     font-family: 'Inter', sans-serif;
+  }
+
+  /* ── PAGE LAYOUT ── */
+  html, body {
+    width: 100%; height: 100%;
+    overflow-x: hidden;
   }
   body {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 32px;
+    padding: 24px;
     background: ${currentBg};
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
   }
-  /* Angular component host wrapper */
+
+  /* ── COMPONENT HOST ── */
   .component-host {
     width: 100%;
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
+
+  /* ── GLOBAL OVERFLOW SAFETY ── */
+  .component-host * {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  /* ── TEXT OVERFLOW SAFETY ── */
+  .component-host p,
+  .component-host span,
+  .component-host h1,
+  .component-host h2,
+  .component-host h3,
+  .component-host h4,
+  .component-host h5,
+  .component-host h6,
+  .component-host label,
+  .component-host div {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* ── FLEX ROW OVERFLOW FIX ── */
+  .component-host [style*="display: flex"],
+  .component-host [style*="display:flex"] {
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  /* ── CARD OVERFLOW FIX ── */
+  .component-host [style*="border-radius"],
+  .component-host [style*="border"],
+  .component-host [style*="background"] {
+    overflow: hidden;
+  }
+
+  /* ── COMPONENT INJECTED CSS ── */
   ${css}
 </style>
 </head>
 <body>
   <div class="component-host">
-    ${html || '<p style="color:#6b7280;font-family:Inter,sans-serif;font-size:14px">No template found in this component</p>'}
+    ${html || '<p style="color:#6b7280;font-family:Inter,sans-serif;font-size:14px;padding:20px">No template found in this component</p>'}
   </div>
 </body>
 </html>`;
 
-    const frame = document.getElementById('previewFrame');
+    const frame  = document.getElementById('previewFrame');
     frame.srcdoc = doc;
   }
 
@@ -737,7 +700,7 @@
   }
 
   // ─────────────────────────────────────
-  // UI HELPERS
+  // UI STATE HELPERS
   // ─────────────────────────────────────
   function showLoading() {
     document.getElementById('emptyState').style.display   = 'none';
@@ -759,15 +722,15 @@
 
     const match = data.code.match(/selector\s*:\s*['"`]([^'"`]+)['"`]/);
     const sel   = match ? match[1] : 'component';
-    document.getElementById('componentName').textContent = sel.replace('app-','') + '.component.ts';
+    document.getElementById('componentName').textContent       = sel.replace('app-','') + '.component.ts';
     document.getElementById('previewComponentName').textContent = sel;
 
+    const badge = document.getElementById('attemptBadge');
     if (data.attempts > 1) {
-      const badge = document.getElementById('attemptBadge');
       badge.textContent   = `${data.attempts} attempts`;
       badge.style.display = 'inline';
     } else {
-      document.getElementById('attemptBadge').style.display = 'none';
+      badge.style.display = 'none';
     }
 
     document.getElementById('codeView').innerHTML = syntaxHL(data.code);
@@ -785,7 +748,7 @@
   function setStatus(state, text) {
     const dot  = document.getElementById('statusDot');
     const span = document.getElementById('statusText');
-    dot.className = 'status-dot ' + state;
+    dot.className    = 'status-dot ' + state;
     span.textContent = text;
     span.style.color = state === 'success' ? 'var(--success)'
                      : state === 'error'   ? 'var(--error)'
@@ -801,14 +764,17 @@
     }
     const items =
       data.hard_errors.map(e => `<div class="v-item error">${escHtml(e)}</div>`).join('') +
-      data.warnings.map(w => `<div class="v-item warning">${escHtml(w)}</div>`).join('');
+      data.warnings.map(w  => `<div class="v-item warning">${escHtml(w)}</div>`).join('');
     el.innerHTML = `<div class="validation-list">${items}</div>`;
   }
 
   let stepTimer;
   function animateSteps() {
     const steps = ['step1','step2','step3','step4'];
-    steps.forEach(s => { const el = document.getElementById(s); el.classList.remove('active','done'); });
+    steps.forEach(s => {
+      const el = document.getElementById(s);
+      el.classList.remove('active','done');
+    });
     document.getElementById('step1').classList.add('active');
     let i = 0;
     clearInterval(stepTimer);
@@ -827,14 +793,17 @@
   // ─────────────────────────────────────
   function syntaxHL(code) {
     return escHtml(code)
-      .replace(/\b(import|export|from|class|const|let|var|return|new|async|await|if|else|function|extends|implements|default)\b/g,'<span class="tok-kw">$1</span>')
-      .replace(/(@Component|@NgModule|@Input|@Output|@Injectable)/g,'<span class="tok-dec">$1</span>')
-      .replace(/(\/\/[^\n]*)/g,'<span class="tok-cmt">$1</span>')
-      .replace(/('([^'\\]|\\.)*'|"([^"\\]|\\.)*"|`([^`\\]|\\.)*`)/g,'<span class="tok-str">$1</span>');
+      .replace(/\b(import|export|from|class|const|let|var|return|new|async|await|if|else|function|extends|implements|default)\b/g, '<span class="tok-kw">$1</span>')
+      .replace(/(@Component|@NgModule|@Input|@Output|@Injectable)/g, '<span class="tok-dec">$1</span>')
+      .replace(/(\/\/[^\n]*)/g, '<span class="tok-cmt">$1</span>')
+      .replace(/('([^'\\]|\\.)*'|"([^"\\]|\\.)*"|`([^`\\]|\\.)*`)/g, '<span class="tok-str">$1</span>');
   }
 
   function escHtml(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;');
   }
 
   // ─────────────────────────────────────
@@ -860,12 +829,12 @@
   // EXAMPLES
   // ─────────────────────────────────────
   const EXAMPLES = {
-    'Login card (glass)':   'A glassmorphism login card with email and password fields, a primary sign-in button using color #6366f1, and "Forgot password?" link',
-    'Dashboard stats':      'A dashboard statistics row with 4 metric cards showing numbers with icons, using primary color #6366f1 for highlights',
-    'Pricing card':         'A pricing card with a featured plan highlighted in primary color #6366f1, feature list with checkmarks, and a CTA button',
-    'Notification toast':   'A notification toast component with success/error/warning variants using the design system colors, with dismiss button',
-    'Search bar':           'A search bar with a magnifier icon, placeholder text, and a search button styled with primary color #6366f1',
-    'Profile card':         'A user profile card with avatar, name, role badge, bio text, and follow button using primary color #6366f1',
+    'Login card (glass)': 'A glassmorphism login card with email and password fields, a primary sign-in button using color #6366f1, and "Forgot password?" link',
+    'Dashboard stats':    'A dashboard statistics row with 4 metric cards showing numbers with icons, using primary color #6366f1 for highlights',
+    'Pricing card':       'A pricing card with a featured plan highlighted in primary color #6366f1, feature list with checkmarks, and a CTA button',
+    'Notification toast': 'A notification toast component with success/error/warning variants using the design system colors, with dismiss button',
+    'Search bar':         'A search bar with a magnifier icon, placeholder text, and a search button styled with primary color #6366f1',
+    'Profile card':       'A user profile card with avatar, name, role badge, bio text, and follow button using primary color #6366f1',
   };
 
   function useExample(el) {
@@ -874,7 +843,7 @@
   }
 
   // ─────────────────────────────────────
-  // TOKENS
+  // DESIGN TOKENS
   // ─────────────────────────────────────
   async function loadTokens() {
     const grid = document.getElementById('tokensGrid');
@@ -905,7 +874,7 @@
     }
   }
 
-  // Keyboard shortcut
+  // Ctrl/Cmd+Enter to submit
   document.getElementById('promptInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) generate();
   });
